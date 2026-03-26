@@ -1,0 +1,42 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+      - run: dotnet restore
+      - run: dotnet build --configuration Release --no-restore
+      - run: |
+          dotnet test --configuration Release --no-restore --no-build \
+            --filter "Category!=MySQL Integration Tests" \
+            --logger "trx" --results-directory ./results
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+      - run: dotnet restore
+
+      - name: Build baseline image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./baselines
+          tags: mysql-test-baseline:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - run: dotnet build --configuration Release --no-restore
+      - run: |
+          dotnet test --configuration Release --no-restore --no-build \
+            --filter "Category=MySQL Integration Tests" \
+            --logger "trx" --results-directory ./results
