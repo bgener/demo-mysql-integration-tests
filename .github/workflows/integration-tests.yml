@@ -26,6 +26,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
       - run: dotnet restore
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build baseline image
         uses: docker/build-push-action@v6
         with:
