@@ -42,6 +42,10 @@ results/
 baselines/schema.sql
 baselines/Migrations/
 
+## act (local pipeline verification)
+.github/workflows/.verify-local.yml
+.secrets
+
 ## OS files
 .DS_Store
 Thumbs.db

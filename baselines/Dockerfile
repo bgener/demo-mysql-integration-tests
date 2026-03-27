@@ -3,7 +3,7 @@ FROM mysql:8.0 AS initializer
 
 ENV MYSQL_ROOT_PASSWORD=root
 
-COPY Migrations/ /migrations/
+COPY src/OrderSystem/Migrations/ /migrations/
 
 RUN set -eux; \
     mysqld --user=mysql --initialize-insecure --datadir=/var/lib/mysql-init; \

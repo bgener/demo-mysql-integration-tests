@@ -32,7 +32,8 @@ jobs:
       - name: Build baseline image
         uses: docker/build-push-action@v6
         with:
-          context: ./baselines
+          context: .
+          file: ./baselines/Dockerfile
           tags: mysql-test-baseline:latest
           load: true
           cache-from: type=gha
