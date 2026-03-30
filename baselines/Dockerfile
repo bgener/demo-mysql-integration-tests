@@ -7,7 +7,7 @@ COPY src/OrderSystem/Migrations/ /migrations/
 
 RUN set -eux; \
     mysqld --user=mysql --initialize-insecure; \
-    mysqld --user=mysql --skip-networking & \
+    mysqld --user=mysql --skip-networking --socket=/var/run/mysqld/mysqld.sock & \
     pid=$!; \
     for i in $(seq 1 120); do \
         mysqladmin --socket=/var/run/mysqld/mysqld.sock ping 2>/dev/null && break; \
