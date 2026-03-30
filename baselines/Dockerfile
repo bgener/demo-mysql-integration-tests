@@ -5,6 +5,8 @@ ENV MYSQL_ROOT_PASSWORD=root
 
 COPY src/OrderSystem/Migrations/ /migrations/
 
+RUN mkdir -p /var/lib/mysql-init && chown mysql:mysql /var/lib/mysql-init
+
 RUN set -eux; \
     mysqld --user=mysql --initialize-insecure --datadir=/var/lib/mysql-init; \
     mysqld --user=mysql --datadir=/var/lib/mysql-init --skip-networking & \
